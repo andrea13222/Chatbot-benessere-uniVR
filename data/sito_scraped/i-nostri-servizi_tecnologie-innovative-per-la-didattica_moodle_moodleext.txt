@@ -1,0 +1,43 @@
+URL originale: https://www.univr.it/i-nostri-servizi/tecnologie-innovative-per-la-didattica/moodle/moodleext
+
+Servizi - Moodleext
+I nostri servizi
+Tecnologie Innovative per la Didattica
+Moodle
+Moodleext
+Moodleext
+Servizi
+Funzionalità
+L'istanza MoodleExt è concepità dare spazio a tutte le attività promosse dall'Ateneo rivolte anche o esclusivamente agli esterni.
+Ospita iniziative formative, eventi e ambienti di condivisione gestiti e offerti dalle diverse aree di Direzione destinate all'
+orientamento
+, alla
+ricerca
+, alla
+terza missione,
+alle
+lingue
+e ad altre attività generali.
+Accesso
+L'autenticazione può avvenire in tre differenti modalità, a seconda della
+tipologia di account
+che l'utente possiede:
+Per gli
+utenti di Ateneo
+avviene tramite credenziali
+GIA
+, inserendo Username e Password nella maschera apposita.
+Per gli utenti esterni - invece - sono richiesti:
+la
+creazione di un account
+sul sito
+o in alternativa
+l'accesso tramite
+Shibboleth Login
+, scegliendo la modalità
+SPID
+, per chi è in possesso delle credenziali
+Servizio gestito da:
+Unità operativa Gruppo di Lavoro "Tecnologie Innovative per la Didattica"
+URL
+https://moodleext.univr.it

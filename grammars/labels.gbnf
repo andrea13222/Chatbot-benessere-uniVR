@@ -1,0 +1,40 @@
+root ::= "{" ws q "tipo_utente" q ":" ws tipoutente "," ws q "stato_psicologico" q ":" ws statopsicologico "," ws q "causa" q ":" ws causa "," ws q "tipologia" q ":" ws tipologia ws "}"
+
+tipoutente ::= q "Studente triennale" q | q "Studente magistrale" q | q "Dottorando" q | q "Post-Doc" q | q "Ricercatore" q | q "Specializzando" q | q "Professore" q | q "Docente a contratto" q | q "Personale tecnico-amministrativo (TA)" q | q "Collaboratore esperto linguistico" q
+
+statopsicologico ::= emozionipensiericomportamenti | risorsebisogni | situazioniurgenti
+
+emozionipensiericomportamenti ::= q "Ansia" q | q "Attacchi di panico" q | q "Incertezza" q | q "Depressione" q | q "Pensieri negativi ricorrenti o intrusivi" q | q "Solitudine" q | q "Isolamento sociale" q | q "Disagio" q | q "Malessere" q | q "Non star bene" q | q "Stress" q | q "Burnout" q | q "Esaurimento emotivo" q | q "Bassa autostima" q | q "Senso di inadeguatezza" q | q "Crisi emotiva" q | q "Difficolta di concentrazione e memoria" q | q "Problemi di sonno" q | q "Tristezza" q | q "Senso di vuoto" q | q "Apatia" q | q "Irritabilita / scatti d'ira" q | q "Vergogna" q | q "Senso di colpa" q | q "Pianto frequente" q | q "Rimuginio" q | q "Difficolta a prendere decisioni" q | q "Perfezionismo" q | q "Paura del giudizio" q | q "Paura del fallimento" q | q "Stanchezza cronica" q | q "Evitamento" q | q "Agitazione / irrequietezza" q | q "Problemi alimentari" q | q "Ossessioni" q | q "Compulsioni" q | q "Rituali" q | q "Disturbi sessuali" q | q "Dipendenze (alcol, sostanze, gioco, social media, pornografia)" q | q "Dipendenza affettiva" q
+
+risorsebisogni ::= q "Regolazione emotiva" q | q "Gestione dello stress" q | q "Assertivita" q | q "Consapevolezza" q | q "Evoluzione personale" q | q "Crescita" q | q "Soft skills" q | q "Motivazione" q | q "Autostima" q | q "Comunicazione efficace" q | q "Gestione del tempo" q | q "Tecniche di studio" q | q "Mindfulness" q | q "Rilassamento" q | q "Resilienza" q
+
+situazioniurgenti ::= q "Comportamenti autolesivi" q | q "Ideazione suicidaria" q | q "Allucinazioni e deliri" q | q "Aggressivita eterodiretta" q
+
+causa ::= areaaccademica | arearelazionale | discriminazioneinclusione | questionicarriera | worklifebalance | violenzarelazioni | vitapersonale
+
+areaaccademica ::= q "Difficolta legate al percorso / agli esami" q | q "Difficolta legate alla tesi" q | q "Difficolta con il progetto di ricerca" q | q "Difficolta del rispetto delle scadenze" q | q "Erasmus e periodo all'estero" q | q "Difficolta di conciliazione vita-lavoro o studio" q | q "Sovraccarico lavorativo" q | q "Adattamento al trasferimento" q
+
+arearelazionale ::= q "Difficolta legate al rapporto con i professori/supervisori" q | q "Difficolta legate al rapporto con i pari" q | q "Difficolta legate al rapporto con i responsabili" q | q "Mobbing" q
+
+discriminazioneinclusione ::= q "Disabilita" q | q "Orientamento sessuale" q | q "Identita di genere" q | q "Contesto migratorio" q
+
+questionicarriera ::= q "Difficolta economiche / precarieta" q | q "Difficolta legate all'identita (chi sono, cosa voglio fare nella vita)" q | q "Licenziamento (legato al mondo universitario)" q | q "Demansionamento (legato al mondo universitario)" q
+
+worklifebalance ::= q "Maternita / paternita / genitorialita" q
+
+violenzarelazioni ::= q "Stalking" q | q "Molestie" q | q "Violenza sessuale" q | q "Violenza economica" q | q "Violenza psicologica" q | q "Violenza fisica" q | q "Dipendenza affettiva" q
+
+vitapersonale ::= q "Lutto" q | q "Malattia propria o di un familiare" q | q "Questioni di coppia (separazione/tradimento)" q | q "Licenziamento (non legato al mondo universitario)" q | q "Demansionamento (non legato al mondo universitario)" q
+
+tipologia ::= "{" ws q "modalita_erogazione" q ":" ws modalitaerogazione "," ws q "formato" q ":" ws formato "," ws q "lingua" q ":" ws lingua "," ws q "format" q ":" ws formattipo ws "}"
+
+modalitaerogazione ::= q "Presenza" q | q "On-line sincrona" q | q "On-line asincrona" q | q "Ibrida" q
+
+formato ::= q "Individuale" q | q "Gruppo" q | q "Mista" q
+
+lingua ::= q "Italiano" q | q "Inglese" q | q "Altre lingue" q
+
+formattipo ::= q "Attivita formativa" q | q "Attivita di supporto/intervento guidato/Consulenza" q | q "Promozione skill" q | q "Supporto tra pari" q
+
+q ::= "\""
+ws ::= [ \t\n]*
