@@ -9,6 +9,7 @@ Peso complessivo del sistema si attestano a poco meno di 6GB
 ## 1. attivazione ambiente
 
 python -m venv venv
+
 source venv/bin/activate
 
 ## 2. installazione dipoendenze python presente in /venv
@@ -19,6 +20,7 @@ pip install -r requisiti.txt
 Da Hugging Face (se non presente -> pip install -U huggingface_hub):
 
 huggingface-cli download Qwen/Qwen2.5-3B-Instruct-GGUF qwen2.5-3b-instruct-q4_k_m.gguf --local-dir ./models
+
 huggingface-cli download intfloat/multilingual-e5-small --local-dir ./models/multilingual-e5-small
 
 ## 4. Popolare il /vectorstore
