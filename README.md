@@ -1,4 +1,9 @@
 # Chatbot-benessere-uniVR
+Il chatbot funge da assistente virtuale per il benessere della comunità universitaria (sito web: https://www.univr.it/benessere). Classifica le richieste in base alle tassonomie date e genera la risposta da restituire all'utente rilevando situazioni di emergenza. Il sistema è interamente locale che utilizza Qwen2.5-3B-Instruct-Q4_K_M per la classificazione e la generazione della risposta. E' possibile richiedere o no la classificazione delle tassonomie, riducendo i tempi di risposta (i tempi di risposta variano in base alle risorse hardware disponibili).
+
+Peso complessivo del sistema si attestano a poco meno di 6GB
+
+## Il chatbot non e' uno psicologo, è opportuno verificare sempre le informazioni, il modello può commettere errori.
 
 # SU MACOS/LINUX:
 ## 1. attivazione ambiente
