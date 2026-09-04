@@ -12,11 +12,11 @@ python -m venv venv
 
 source venv/bin/activate
 
-## 2. installazione dipoendenze python presente in /venv
+## 2. installazione dipoendenze python in /venv
 
 pip install -r requisiti.txt
 
-## 3. scaricare i modelli
+## 3. scaricare i modelli in /models
 Da Hugging Face (se non presente -> pip install -U huggingface_hub):
 
 huggingface-cli download Qwen/Qwen2.5-3B-Instruct-GGUF qwen2.5-3b-instruct-q4_k_m.gguf --local-dir ./models
