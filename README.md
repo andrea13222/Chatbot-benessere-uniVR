@@ -3,7 +3,7 @@ Il chatbot funge da assistente virtuale per il benessere della comunità univers
 
 Peso complessivo del sistema si attestano a poco meno di 6GB
 
-## Il chatbot non e' uno psicologo, è opportuno verificare sempre le informazioni, il modello può commettere errori.
+## <ins>Il chatbot non e' uno psicologo, è opportuno verificare sempre le informazioni, il modello può commettere errori.</ins>
 
 # SU MACOS/LINUX:
 ## 1. attivazione ambiente
