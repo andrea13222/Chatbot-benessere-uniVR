@@ -40,12 +40,14 @@ Specifiche:
 
 2,4 GHz Intel Core i5 quad-core
 
+8 GB 2133 MHz LPDDR3
+
+Intel Iris Plus Graphics 655 1536 MB
+
 # Struttura repository
 ## Branch main
 Progetto originale
 ## Branch main-feedback
 Progetto con l'implementazione del sistema dei feedback
 
-8 GB 2133 MHz LPDDR3
 
-Intel Iris Plus Graphics 655 1536 MB
