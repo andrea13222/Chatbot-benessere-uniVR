@@ -40,7 +40,7 @@ Specifiche:
 
 2,4 GHz Intel Core i5 quad-core
 
-#Struttura repository
+# Struttura repository
 ## Branch main
 Progetto originale
 ## Branch main-feedback
