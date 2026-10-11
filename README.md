@@ -48,6 +48,6 @@ Intel Iris Plus Graphics 655 1536 MB
 ## Branch main
 Progetto originale
 ## Branch main-feedback
-Progetto con l'implementazione del sistema dei feedback
+Progetto con l'implementazione del sistema dei feedback (consultabile con URL .../feedback con credenziali placeholder placeholder)
 
 
