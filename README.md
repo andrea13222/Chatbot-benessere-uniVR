@@ -48,6 +48,8 @@ Intel Iris Plus Graphics 655 1536 MB
 ## Branch main
 Progetto originale
 ## Branch main-feedback
-Progetto con l'implementazione del sistema dei feedback (consultabile con URL .../feedback con credenziali placeholder placeholder)
+Progetto con l'implementazione del sistema dei feedback (consultabile con URL .../feedback con credenziali provvisorie placeholder placeholder)  
+Presenta una interfaccia per l'interazione con il chatbot dove ad ogni risposta che restituisce viene fornita la possibilità di valutare la risposta con una valutazione da 1 a 4 stelle (+ commento facoltativo).  
+Viene fornita una pagina per la consultazione dei feedback inviati dagli utenti protetta da credenziali sul codice, dove è possibile avere la raccolta in ordine di ricezione con conteggio dei feedback in base alla valutazione, e la possibilità di filtrare i feedback in base a quelli con e senza commenti e/o in base alla valutazione.
 
 
