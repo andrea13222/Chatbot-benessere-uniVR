@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback Chatbot</title>
+<style>
+  :root {
+    --primario: #3f6f8f;
+    --primario-scuro: #2c5170;
+    --sfondo: #f4f6f8;
+    --testo-scuro: #2b2b2b;
+    --grigio-bordo: #e2e6ea;
+    --oro-stella: #f5a623;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Arial, sans-serif;
+    background: var(--sfondo);
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin: 0;
+  }
+  .contenitore {
+    background: white;
+    border-radius: 0 0 16px 16px;
+    display: flex;
+    flex-direction: column;
+    height: 85vh;
+    width: 100%;
+    max-width: 800px;
+  }
+  header {
+    background: linear-gradient(45deg, #9b006b, #008ea9);
+    color: white;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0;
+  }
+  header h1 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+  header p { margin: 4px 0 0; font-size: 0.8rem; opacity: 0.85; }
+
+  .btn-aggiorna {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .btn-aggiorna:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .sezione-stats {
+    padding: 12px 20px;
+    background: #f7f7f9;
+    border-bottom: 1px solid var(--grigio-bordo);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .stat-card {
+    background: white;
+    border: 1px solid var(--grigio-bordo);
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: border-color 0.15s, background-color 0.15s;
+  }
+  .stat-card:hover {
+    border-color: #b0bec5;
+  }
+  .stat-card.attiva {
+    border-color: var(--primario);
+    background-color: #edf3f7;
+  }
+  .stat-card .valore {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primario);
+  }
+  .stat-card .etichetta {
+    font-size: 0.72rem;
+    color: #666;
+    margin-top: 2px;
+  }
+  .stat-card .etichetta .stelle {
+    color: var(--oro-stella);
+  }
+
+  #sezione-commenti {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+  .barra-titolo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2px;
+  }
+  .titolo-sezione {
+    font-size: 0.88rem;
+    font-weight: bold;
+    color: #444;
+  }
+  .filtro-opzione {
+    font-size: 0.78rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .filtro-opzione input[type="checkbox"] {
+    cursor: pointer;
+  }
+
+  .card-commento {
+    background: white;
+    border: 1px solid var(--grigio-bordo);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .card-commento-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .voto-stelle {
+    color: var(--oro-stella);
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+  .timestamp {
+    color: #888;
+    font-size: 0.75rem;
+  }
+  .testo-anomalia {
+    color: var(--testo-scuro);
+    font-size: 0.88rem;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    background: #f7f7f9;
+    padding: 8px 10px;
+    border-radius: 6px;
+  }
+  .vuoto {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    font-size: 0.85rem;
+    padding: 30px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="contenitore">
+  <header>
+    <div>
+      <h1>Feedback Chatbot</h1>
+      <p>Riepilogo feedback ricevuti dagli utenti</p>
+    </div>
+    <button class="btn-aggiorna" onclick="caricaDati()">Aggiorna</button>
+  </header>
+
+  <div class="sezione-stats">
+    <div class="stat-card attiva" id="card-0" onclick="impostaFiltroStelle(0)">
+      <div class="valore" id="totale-feedback">0</div>
+      <div class="etichetta">Totali</div>
+    </div>
+    <div class="stat-card" id="card-1" onclick="impostaFiltroStelle(1)">
+      <div class="valore" id="cnt-1">0</div>
+      <div class="etichetta"><span class="stelle">★</span> (1)</div>
+    </div>
+    <div class="stat-card" id="card-2" onclick="impostaFiltroStelle(2)">
+      <div class="valore" id="cnt-2">0</div>
+      <div class="etichetta"><span class="stelle">★★</span> (2)</div>
+    </div>
+    <div class="stat-card" id="card-3" onclick="impostaFiltroStelle(3)">
+      <div class="valore" id="cnt-3">0</div>
+      <div class="etichetta"><span class="stelle">★★★</span> (3)</div>
+    </div>
+    <div class="stat-card" id="card-4" onclick="impostaFiltroStelle(4)">
+      <div class="valore" id="cnt-4">0</div>
+      <div class="etichetta"><span class="stelle">★★★★</span> (4)</div>
+    </div>
+  </div>
+
+  <div id="sezione-commenti">
+    <div class="barra-titolo">
+      <div class="titolo-sezione" id="titolo-sezione">Cronologia feedback</div>
+      <label class="filtro-opzione">
+        <input type="checkbox" id="chk-solo-commenti" onchange="renderCommenti()">
+        Solo con commento
+      </label>
+    </div>
+    <div id="lista-commenti"></div>
+  </div>
+</div>
+
+<script>
+let feedbackRicevuti = [];
+let filtroStelleAttivo = 0;
+
+async function caricaDati() {
+  const listaCommenti = document.getElementById('lista-commenti');
+  listaCommenti.innerHTML = '<div class="vuoto">Caricamento in corso...</div>';
+
+  try {
+    const res = await fetch('/api/feedback/stats');
+    if (!res.ok) throw new Error('Errore durante il recupero dei dati');
+    const dati = await res.json();
+
+    const conteggi = dati.conteggi || { 1: 0, 2: 0, 3: 0, 4: 0 };
+    const totale = dati.totale_valutazioni || 0;
+
+    document.getElementById('totale-feedback').textContent = totale;
+    document.getElementById('cnt-1').textContent = conteggi[1] || 0;
+    document.getElementById('cnt-2').textContent = conteggi[2] || 0;
+    document.getElementById('cnt-3').textContent = conteggi[3] || 0;
+    document.getElementById('cnt-4').textContent = conteggi[4] || 0;
+
+    feedbackRicevuti = dati.commenti || [];
+    renderCommenti();
+
+  } catch (err) {
+    console.error(err);
+    listaCommenti.innerHTML = '<div class="vuoto" style="color: #c62828;">Errore nel caricamento dei feedback. Assicurati che il server sia attivo.</div>';
+  }
+}
+
+function impostaFiltroStelle(n) {
+  filtroStelleAttivo = n;
+
+  for (let i = 0; i <= 4; i++) {
+    const card = document.getElementById(`card-${i}`);
+    if (card) {
+      if (i === n) card.classList.add('attiva');
+      else card.classList.remove('attiva');
+    }
+  }
+
+  const titolo = document.getElementById('titolo-sezione');
+  if (n === 0) {
+    titolo.textContent = 'Cronologia feedback';
+  } else {
+    titolo.textContent = `Feedback con valutazione ${n} stell${n === 1 ? 'a' : 'e'}`;
+  }
+
+  renderCommenti();
+}
+
+function renderCommenti() {
+  const listaCommenti = document.getElementById('lista-commenti');
+  listaCommenti.innerHTML = '';
+
+  const soloCommenti = document.getElementById('chk-solo-commenti').checked;
+
+  const filtrati = feedbackRicevuti.filter(item => {
+    const corrispondeStelle = (filtroStelleAttivo === 0) || (item.stelle === filtroStelleAttivo);
+    const haCommento = item.commento && item.commento.trim() !== '';
+    const corrispondeCommento = !soloCommenti || haCommento;
+    return corrispondeStelle && corrispondeCommento;
+  });
+
+  if (filtrati.length === 0) {
+    listaCommenti.innerHTML = '<div class="vuoto">Nessun feedback corrispondente ai filtri selezionati.</div>';
+    return;
+  }
+
+  filtrati.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'card-commento';
+
+    const piene = '★'.repeat(item.stelle);
+    const vuote = '☆'.repeat(4 - item.stelle);
+
+    const bloccoTesto = item.commento
+      ? `<div class="testo-anomalia">${item.commento}</div>`
+      : '';
+
+    card.innerHTML = `
+      <div class="card-commento-header">
+        <div>
+          <span class="voto-stelle">${piene}${vuote}</span>
+          <strong style="margin-left: 6px; font-size: 0.82rem;">(${item.stelle}/4)</strong>
+        </div>
+        <span class="timestamp">${formattaData(item.timestamp)}</span>
+      </div>
+      ${bloccoTesto}
+    `;
+    listaCommenti.appendChild(card);
+  });
+}
+
+function formattaData(isoString) {
+  if (!isoString) return '';
+  const data = new Date(isoString.replace(' ', 'T'));
+  if (isNaN(data.getTime())) return isoString;
+  return data.toLocaleString('it-IT', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  }).replace(',', '');
+}
+
+caricaDati();
+</script>
+
+</body>
+</html>

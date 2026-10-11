@@ -135,6 +135,68 @@
     font-size: 0.72rem;
   }
 
+  .feedback-box {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed #d7dce1;
+    font-size: 0.8rem;
+  }
+  .feedback-box .titolo {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .feedback-stelle {
+    display: inline-flex;
+    gap: 4px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    user-select: none;
+  }
+  .feedback-stelle .stella {
+    color: #ccc;
+    transition: color 0.15s;
+  }
+  .feedback-stelle .stella.attiva {
+    color: #f5a623;
+  }
+  .feedback-corpo {
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .feedback-textarea {
+    width: 100%;
+    border: 1px solid #d7dce1;
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 0.8rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+  .btn-feedback {
+    align-self: flex-start;
+    background: var(--primario);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    cursor: pointer;
+  }
+  .btn-feedback:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .feedback-inviato {
+    color: #2e7d32;
+    font-weight: bold;
+    font-size: 0.78rem;
+  }
 </style>
 </head>
 <body>
@@ -153,14 +215,14 @@
 
   <div class="disclaimer">
     Generare una risposta può richiedere fino a 1-2 minuti, i tuoi dati non saranno condivisi con nessuno dato che il modello lavora in locale, il modello può commettere errori, verifica le informazioni.
-    </div>
+  </div>
 
-    <div class="opzioni">
-      <label>
-        <input type="checkbox" id="chk-classificazione" checked>
-        Richiedi classificazione tassonomie
-      </label>
-    </div>
+  <div class="opzioni">
+    <label>
+      <input type="checkbox" id="chk-classificazione" checked>
+      Richiedi classificazione tassonomie
+    </label>
+  </div>
 
   <footer>
     <input type="text" id="input-messaggio" placeholder="Scrivi un messaggio..." autocomplete="off">
@@ -174,7 +236,7 @@ const input = document.getElementById('input-messaggio');
 const btnInvia = document.getElementById('btn-invia');
 const chkClassificazione = document.getElementById('chk-classificazione');
 
-function aggiungiMessaggio(testo, classe, etichette = null) {
+function aggiungiMessaggio(testo, classe, etichette = null, mostraFeedback = false) {
   const div = document.createElement('div');
   div.className = 'messaggio ' + classe;
 
@@ -185,8 +247,7 @@ function aggiungiMessaggio(testo, classe, etichette = null) {
     info.className = 'etichette';
 
     info.innerHTML =
-      "<strong>Classificazione delle tassonomie (approssimativa)</strong><br>" +
-      "<br>";
+      "<strong>Classificazione delle tassonomie (approssimativa)</strong><br><br>";
 
     function tag(nome, valore) {
       if (!valore) return "";
@@ -206,6 +267,101 @@ function aggiungiMessaggio(testo, classe, etichette = null) {
     }
 
     div.appendChild(info);
+  }
+
+  if (mostraFeedback && classe === 'bot') {
+    const feedbackBox = document.createElement('div');
+    feedbackBox.className = 'feedback-box';
+
+    const titolo = document.createElement('span');
+    titolo.className = 'titolo';
+    titolo.textContent = 'Valuta questa risposta (da 1 a 4 stelle obbligatorio):';
+    feedbackBox.appendChild(titolo);
+
+    const stelleContainer = document.createElement('div');
+    stelleContainer.className = 'feedback-stelle';
+
+    let votoSelezionato = 0;
+    const arrayStelle = [];
+
+    for (let i = 1; i <= 4; i++) {
+      const span = document.createElement('span');
+      span.className = 'stella';
+      span.textContent = '★';
+      span.title = `${i} stell${i === 1 ? 'a' : 'e'}`;
+
+      span.addEventListener('click', () => {
+        votoSelezionato = i;
+        aggiornaStelle(votoSelezionato);
+        btnSalva.disabled = false;
+        corpoFeedback.style.display = 'flex';
+      });
+
+      span.addEventListener('mouseenter', () => aggiornaStelle(i));
+      span.addEventListener('mouseleave', () => aggiornaStelle(votoSelezionato));
+
+      stelleContainer.appendChild(span);
+      arrayStelle.push(span);
+    }
+
+    function aggiornaStelle(n) {
+      arrayStelle.forEach((stella, idx) => {
+        if (idx < n) {
+          stella.classList.add('attiva');
+        } else {
+          stella.classList.remove('attiva');
+        }
+      });
+    }
+
+    feedbackBox.appendChild(stelleContainer);
+
+    const corpoFeedback = document.createElement('div');
+    corpoFeedback.className = 'feedback-corpo';
+    corpoFeedback.style.display = 'none';
+
+    const textarea = document.createElement('textarea');
+    textarea.className = 'feedback-textarea';
+    textarea.placeholder = 'Segnala un\'anomalia o commenta (opzionale)...';
+
+    const btnSalva = document.createElement('button');
+    btnSalva.className = 'btn-feedback';
+    btnSalva.textContent = 'Invia valutazione';
+    btnSalva.disabled = true;
+
+    btnSalva.addEventListener('click', async () => {
+      if (votoSelezionato < 1 || votoSelezionato > 4) return;
+
+      btnSalva.disabled = true;
+      textarea.disabled = true;
+      stelleContainer.style.pointerEvents = 'none';
+
+      try {
+        const res = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            stelle: votoSelezionato,
+            commento: textarea.value.trim()
+          })
+        });
+
+        if (!res.ok) throw new Error('Errore server');
+
+        corpoFeedback.innerHTML = '<span class="feedback-inviato">✓ Feedback registrato. Grazie!</span>';
+      } catch (err) {
+        btnSalva.disabled = false;
+        textarea.disabled = false;
+        stelleContainer.style.pointerEvents = 'auto';
+        alert('Errore durante il salvataggio. Riprova.');
+      }
+    });
+
+    corpoFeedback.appendChild(textarea);
+    corpoFeedback.appendChild(btnSalva);
+    feedbackBox.appendChild(corpoFeedback);
+
+    div.appendChild(feedbackBox);
   }
 
   chat.appendChild(div);
@@ -249,18 +405,19 @@ async function inviaMessaggio() {
     nodoCaricamento.remove();
 
     if (dati.error) {
-      aggiungiMessaggio('Si è verificato un errore: ' + dati.error, 'bot');
+      aggiungiMessaggio('Si è verificato un errore: ' + dati.error, 'bot', null, false);
     } else {
       aggiungiMessaggio(
           dati.risposta || "",
           'bot',
-          dati.etichette
+          dati.etichette,
+          true
       );
     }
   } catch (err) {
     nodoCaricamento.remove();
     console.error("ERRORE DETTAGLIATO:", err);
-    aggiungiMessaggio('Errore di sistema: ' + err.message, 'bot');
+    aggiungiMessaggio('Errore di sistema: ' + err.message, 'bot', null, false);
   }
 
   input.disabled = false;
