@@ -15,8 +15,8 @@ DB_PATH = BASE_DIR / "feedback.db"
 app = Flask(__name__, static_folder=str(STATIC_DIR))
 CORS(app)
 
-ADMIN_USER = "placeholder"
-ADMIN_PASS = "placeholder"
+ADMIN_USER = "placeholder" #MODIFICABILE
+ADMIN_PASS = "placeholder" #MODIFICABILE
 
 def richiedi_auth(f):
     @wraps(f)
