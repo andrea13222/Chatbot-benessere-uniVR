@@ -346,9 +346,18 @@ function aggiungiMessaggio(testo, classe, etichette = null, mostraFeedback = fal
           })
         });
 
+        //if (!res.ok) throw new Error('Errore server');
+                                                                                    // 349-351 TOGLIE OBBLIGO VALUTAZIONE
+        //corpoFeedback.innerHTML = '<span class="feedback-inviato">✓ Feedback registrato. Grazie!</span>';
+
         if (!res.ok) throw new Error('Errore server');
 
         corpoFeedback.innerHTML = '<span class="feedback-inviato">✓ Feedback registrato. Grazie!</span>';
+        input.disabled = false;
+        btnInvia.disabled = false;                                      //353-359 SEZIONE OBBLIGO VALUTAZIONE
+        input.placeholder = "Scrivi un messaggio...";
+        input.focus();
+
       } catch (err) {
         btnSalva.disabled = false;
         textarea.disabled = false;
@@ -420,9 +429,13 @@ async function inviaMessaggio() {
     aggiungiMessaggio('Errore di sistema: ' + err.message, 'bot', null, false);
   }
 
-  input.disabled = false;
-  btnInvia.disabled = false;
-  input.focus();
+  //input.disabled = false;
+  //btnInvia.disabled = false;               432-434 TOGLIE OBBLIGO VALUTAZIONE
+  //input.focus();
+
+  input.disabled = true;
+  btnInvia.disabled = true;                                                     //436-438 SEZIONE OBBLIGO VALUTAZIONE
+  input.placeholder = "Valuta la risposta precedente per continuare...";
 }
 
 btnInvia.addEventListener('click', inviaMessaggio);
